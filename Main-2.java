@@ -120,7 +120,9 @@ break;
                         maGuilde.setNbArm(maGuilde.getNbArm() + armReward);
 
                         maGuilde.setMontant(maGuilde.getMontant() + goldReward);
-                    }// TODO //again
+                        
+                        
+                    }  // TODO //again
                     else{
                         chosenhero.setLifePoints(chosenhero.getLifePoints() - lifeCost);
 
