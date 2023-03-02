@@ -114,19 +114,30 @@ break;
 
                     //CALCULATIONS:
 
-                    if (lev>= chosenhero.getCategory()) {
+                    if (lev== chosenhero.getCategory() && ((chosenhero.getLifePoints() - lifeCost)>=0) && ((maGuilde.getNbArm() + armReward)>=0) &&((maGuilde.getMontant() + goldReward)>0)) {
                         chosenhero.setLifePoints(chosenhero.getLifePoints() - lifeCost);
 
                         maGuilde.setNbArm(maGuilde.getNbArm() + armReward);
 
                         maGuilde.setMontant(maGuilde.getMontant() + goldReward);
-                    }// TODO //again
-                    else{
-                        chosenhero.setLifePoints(chosenhero.getLifePoints() - lifeCost);
+                    }
+                    else if (((chosenhero.getLifePoints() - lifeCost)>=0) && ((maGuilde.getNbArm() + armReward)>=0) && ((maGuilde.getMontant() + goldReward)>0)) {
+                        // vie_enlevée - (niveau_actuelle - niveau_origine) * 1.5
+
+                        chosenhero.setLifePoints(chosenhero.getLifePoints() - (lifeCost-(chosenhero.getCategory()-lev)*1.5));
 
                         maGuilde.setNbArm(maGuilde.getNbArm() - armReward);
 
                         maGuilde.setMontant(maGuilde.getMontant() - goldReward);
+
+                        if (((chosenhero.getLifePoints() - lifeCost)<0) | ((maGuilde.getMontant() + goldReward)<0) | ((maGuilde.getNbArm() + armReward)>=0)){
+                            System.out.println("Quete echouee");
+                        }
+                    }else
+                    {
+
+                        System.out.println("Quete echouee");
+
                     }
 
 
@@ -138,6 +149,17 @@ break;
                 }
             }
         }
+      //  Guild Bank account: 107.5 gold & 7 armours
+      //  Heroes:
+      // -Berserker: level=2, HP=25.2
+        System.out.println("Guild Bank account: " + maGuilde.getMontant() + "" + " gold & "+ maGuilde.getNbArm()+"" + " armours");
+
+        System.out.println("Heroes: ");
+
+        for (int i=0;i<herosList.size();i++){
+            System.out.println(herosList.get(i).getName()+": level:" +herosList.get(i).getCategory() + " HP=" + herosList.get(i).getLifePoints());
+        }
+
     }
 
     //Creation of Guild
