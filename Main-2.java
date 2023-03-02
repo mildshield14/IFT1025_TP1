@@ -2,51 +2,95 @@ package ca.udem.ift1025.tp1.corrige.guildcommands;
 
 import ca.udem.ift1025.tp1.corrige.guildcommands.GuildCommand;
 import ca.udem.ift1025.tp1.corrige.guildcommands.GuildCommandSystem;
-
+import java.util.LinkedList;
 
 public class Main {
+
     /**
      * Args: array with
      * <ol>
      *     <li>guild:&lt;montant initial&gt;,&lt;armures initiales&gt;</li>
      * </ol>
      *
-     * @param args
+     * @param : args
      */
 
-    public Guild heroList[]; //liste pour heros (a refaire mais l'idee est la)
-
-
-    //use of an enumerated data type for maintability and avoid use of try-catch
-    public enum level{
-
-        0,1,2,3,4
-
-        //0 - common
-        //1 - uncommon
-        //2 - rare
-        //3- epic
-        //4- legendary
-
-    }
     public static void main(String[] args) {
+
         GuildCommandSystem guildCommandSystem = new GuildCommandSystem(args);
 
-        Guilde maGuilde = makeGuilde(guildCommandSystem.actualCommand());
+        Guild maGuilde = makeGuilde(guildCommandSystem.actualCommand());
 
+        //To store heroes of the Guild we use a linked list
+        LinkedList<Hero> herosList = new LinkedList<>();
+
+        //To decode input info and create objects after checking for uniqueness
         while (guildCommandSystem.hasNextCommand()) {
+
             GuildCommand command = guildCommandSystem.nextCommand();
-            switch (command.getName()) {
-                case "buy-hero" -> {
+
+            //variable what- stores info on What to do?
+            String what=command.getName();
+
+            switch (what) {
+                case "buy-hero": {
+
+                    String name = command.nextString();
+
+                    int lev = command.nextInt();
+
+                    double costHero = command.nextDouble();
+
+                    int nbArms = command.nextInt();
+
+                    double lifePoints = command.nextDouble();
+
+                    //creation of objects based on caetgories using polymorphism;
+                    Hero name1;
+
+                    switch (lev) {
+
+                        case 0:
+                            name1 = new Common(name, costHero, nbArms, lifePoints);
+                            break;
+                        case 1:
+                            name1 = new Uncommon(name, costHero, nbArms, lifePoints);
+                            break;
+                        case 2:
+                            name1 = new Rare(name, costHero, nbArms, lifePoints);
+                            break;
+                        case 3:
+                            name1 = new Epic(name, costHero, nbArms, lifePoints);
+                            break;
+                        case 4:
+                            name1 = new Legendary(name, costHero, nbArms, lifePoints);
+                            break;
+
+                        default:
+                            throw new IllegalArgumentException("Invalid level");
+
+                    }
+
+                    //checking for uniqueness
+                    if (herosList.size()!=0 && maGuilde.getMontant()>=costHero) {
+                        checkUnique(name1, herosList, maGuilde);
+                    } else if (maGuilde.getMontant()>=costHero) {
+                        herosList.add(name1);
+                        maGuilde.setMontant(maGuilde.getMontant()-costHero);
+                    }else{
+                        double newCost = (maGuilde.getMontant()-costHero);
+                        System.out.println("Not enough money for " + name1.getName()+" :(" +" | you could be in debt of : " + Double.toString(newCost));
+                    }
+
+                }
+
+                case "buy-armor" :{
                     // TODO
                 }
-                case "buy-armor" ->{
+                case "do-quest" : {
                     // TODO
                 }
-                case "do-quest" -> {
-                    // TODO
-                }
-                case "train-hero" -> {
+                case "train-hero" : {
                     // TODO
 
 
@@ -55,10 +99,48 @@ public class Main {
         }
     }
 
-
-    public static Guilde makeGuilde(GuildCommand command) {
+//Creation of Guild
+    public static Guild makeGuilde(GuildCommand command) {
         double montantInitial = command.nextDouble();
         int nbArmures = command.nextInt();
-        return new Guilde(montantInitial, nbArmures);
+        Guild maGuilde=new Guild(montantInitial, nbArmures);
+        maGuilde.setMontant(montantInitial);
+        return maGuilde;
     }
-}
+
+    //procedure to check uniqueness
+    public static void checkUnique(Hero objHero,LinkedList<Hero> herosList, Guild maGuilde){
+
+        String n=objHero.getName();
+        int i=-1;
+        boolean unique=true;
+        boolean stop=true;
+
+        while (stop==true){
+            i++;
+            Hero n2= herosList.get(i);
+            String name2=n2.getName();
+            if (name2.equals(n)){
+                stop=false;
+                unique=false;
+            };
+
+            if (i==herosList.size()-1){
+                stop=false;
+            }
+
+        }
+
+
+            if (unique){
+                herosList.add(objHero);
+                System.out.println(maGuilde.getMontant());
+                System.out.println(objHero.getCashCost());
+                maGuilde.setMontant(maGuilde.getMontant()- objHero.getCashCost());
+
+            }else{
+                System.out.println("Error; input another one as " + " " + n + " already exists");
+            }
+
+
+    }
