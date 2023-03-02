@@ -1,44 +1,37 @@
 package ca.udem.ift1025.tp1.corrige.guildcommands;
 
-import ca.udem.ift1025.tp1.corrige.guildcommands.GuildCommand;
-import ca.udem.ift1025.tp1.corrige.guildcommands.GuildCommandSystem;
+public class Guild {
 
-public class Guild extends Main{
+    public static double setMontant;
+    private static double montant;
+    private static int nbArm;
 
-    private String name;
-    private level category;
-    private double armorCost;
-    private int cashCost;
-    private int lifePoints;
 
-    public Hero(String name, level category, double armorCost, int cashCost, int lifePoints ){
-        this.name=name;
-        this.category=category;
-        this.armorCost=armorCost;
-        this.cashCost=cashCost;
-        this.lifePoints=lifePoints;
-    }
-    public String getName() {
-        return name;
+    public Guild(double montant, int nbArm){
+        this.montant=montant;
+        this.nbArm=nbArm;
     }
 
-    public int getCashCost() {
-        return cashCost;
+    public Guild() {
+
     }
 
-    public int getLifePoints() {
-        return lifePoints;
+    public static int getNbArm() {
+        return nbArm;
     }
 
-    public level getCategory() {
-        return category;
+    public static double getMontant() {
+        return montant;
     }
 
-    public double getArmorCost() {
-        return armorCost;
+    public void setNbArm(int nbArm) {
+        this.nbArm = nbArm;
     }
 
-    public void setLifePoints(int lifePoints) {
-        this.lifePoints = lifePoints;
+    public void setMontant(double montant) {
+
+        this.montant = montant;
     }
+
+
 }
