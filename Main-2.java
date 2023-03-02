@@ -72,14 +72,23 @@ public class Main {
                     }
 
                     //checking for uniqueness
-                    if (herosList.size()!=0 && maGuilde.getMontant()>=costHero) {
+                    if (herosList.size()!=0 && maGuilde.getMontant()>=costHero && maGuilde.getNbArm()>=nbArms) {
                         checkUnique(name1, herosList, maGuilde);
-                    } else if (maGuilde.getMontant()>=costHero) {
+                    } else if (maGuilde.getMontant()>=costHero && maGuilde.getNbArm()>=nbArms) {
                         herosList.add(name1);
                         maGuilde.setMontant(maGuilde.getMontant()-costHero);
+                        maGuilde.setNbArm(maGuilde.getNbArm()-nbArms);
                     }else{
                         double newCost = (maGuilde.getMontant()-costHero);
-                        System.out.println("Not enough money for " + name1.getName()+" :(" +" | you could be in debt of : " + Double.toString(newCost));
+                        int newArms= (maGuilde.getNbArm()-nbArms);
+
+                        if (newCost <0) {
+                            System.out.println("Not enough money for " + name1.getName() + " :(" + " | you could be in debt of : " + Double.toString(newCost));
+                        }
+                        if (newArms<0) {
+
+                            System.out.println("Not enough arms for " + name1.getName() + " :(" + " | you could be in debt of : " + -1*newArms + "");
+                        }
                     }
 
                 }
@@ -134,9 +143,9 @@ public class Main {
 
             if (unique){
                 herosList.add(objHero);
-                System.out.println(maGuilde.getMontant());
-                System.out.println(objHero.getCashCost());
+              
                 maGuilde.setMontant(maGuilde.getMontant()- objHero.getCashCost());
+                maGuilde.setNbArm(maGuilde.getNbArm()-objHero.getArmorCost());
 
             }else{
                 System.out.println("Error; input another one as " + " " + n + " already exists");
@@ -144,3 +153,4 @@ public class Main {
 
 
     }
+}
