@@ -47,7 +47,7 @@ public class Main {
 
 
 
-                    //creation of objects based on caetgories using polymorphism;
+                    //creation of objects based on categories using polymorphism;
                     Hero name1;
 
                     switch (lev) {
@@ -98,8 +98,13 @@ break;
                 }
 
                 case "buy-armor": {
-                    break;
+
+                    int arm = command.nextInt();
+                    double gold = command.nextDouble();
+
+                    Bank.buyArms(arm, gold);
                 }
+                break;
                 case "do-quest": {
 
 
@@ -303,5 +308,3 @@ break;
         return returns;
     }
 }
-
-
