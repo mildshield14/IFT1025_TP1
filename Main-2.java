@@ -114,14 +114,14 @@ break;
 
                     //CALCULATIONS:
 
-                    if (lev== chosenhero.getCategory() && ((chosenhero.getLifePoints() - lifeCost)>=0) && ((maGuilde.getNbArm() + armReward)>=0) &&((maGuilde.getMontant() + goldReward)>0)) {
+                    if (lev== chosenhero.getCategory() && ((chosenhero.getLifePoints() - lifeCost)>=0) ) {
                         chosenhero.setLifePoints(chosenhero.getLifePoints() - lifeCost);
 
                         maGuilde.setNbArm(maGuilde.getNbArm() + armReward);
 
                         maGuilde.setMontant(maGuilde.getMontant() + goldReward);
                     }
-                    else if (((chosenhero.getLifePoints() - lifeCost)>=0) && ((maGuilde.getNbArm() + armReward)>=0) && ((maGuilde.getMontant() + goldReward)>0)) {
+                    else if ((chosenhero.getLifePoints() - lifeCost)>=0){
                         // vie_enlevée - (niveau_actuelle - niveau_origine) * 1.5
 
                         chosenhero.setLifePoints(chosenhero.getLifePoints() - (lifeCost-(chosenhero.getCategory()-lev)*1.5));
@@ -130,8 +130,9 @@ break;
 
                         maGuilde.setMontant(maGuilde.getMontant() - goldReward);
 
-                        if (((chosenhero.getLifePoints() - lifeCost)<0) | ((maGuilde.getMontant() + goldReward)<0) | ((maGuilde.getNbArm() + armReward)>=0)){
+                        if (((chosenhero.getLifePoints() - lifeCost)<0) ){
                             System.out.println("Quete echouee");
+                            herosList.remove(chosenhero);
                         }
                     }else
                     {
