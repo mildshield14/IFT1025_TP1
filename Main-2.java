@@ -4,6 +4,8 @@ import ca.udem.ift1025.tp1.corrige.guildcommands.GuildCommand;
 import ca.udem.ift1025.tp1.corrige.guildcommands.GuildCommandSystem;
 import java.util.LinkedList;
 
+import java.util.*;
+
 public class Main {
 
     /**
@@ -80,20 +82,23 @@ public class Main {
                         checkUnique(name1, herosList, maGuilde);
                     } else if (maGuilde.getMontant() >= costHero && maGuilde.getNbArm() >= nbArms) {
                         herosList.add(name1);
+
                         maGuilde.setMontant(maGuilde.getMontant() - costHero);
                         maGuilde.setNbArm(maGuilde.getNbArm() - nbArms);
+
                     } else {
                         double newCost = (maGuilde.getMontant() - costHero);
                         int newArms = (maGuilde.getNbArm() - nbArms);
 
                         if (newCost < 0) {
-                            System.out.println("Not enough money for " + name1.getName() + " :(" + " | you could be in debt of : " + Double.toString(newCost));
+                            System.out.println("Not enough money for " + name1.getName() + " :(" + " | you could be in debt of : " + String.format("%.1f", newCost));
                         }
                         if (newArms < 0) {
 
                             System.out.println("Not enough arms for " + name1.getName() + " :(" + " | you could be in debt of : " + -1 * newArms + "");
                         }
                     }
+
 break;
                 }
 
@@ -106,47 +111,47 @@ break;
                 }
                 break;
                 case "do-quest": {
+if (herosList.size()>0) {
+
+    int lev = command.nextInt();
+    double lifeCost = command.nextDouble();
+    int goldReward = command.nextInt();
+    int armReward = command.nextInt();
+    int i = herosList.get(0).getCategory();
+
+    Hero chosenhero = searchingAlgo(lev, herosList);
 
 
-                    int lev = command.nextInt();
-                    double lifeCost = command.nextDouble();
-                    int goldReward = command.nextInt();
-                    int armReward = command.nextInt();
-                    int i=herosList.get(0).getCategory();
-                    Hero chosenhero = searchingAlgo(lev, herosList);
+    //CALCULATIONS:
 
-                    System.out.println(chosenhero.getName());
+    if (lev == chosenhero.getCategory() && ((chosenhero.getLifePoints() - lifeCost) >= 0)) {
+        chosenhero.setLifePoints(chosenhero.getLifePoints() - lifeCost);
 
-                    //CALCULATIONS:
+        maGuilde.setNbArm(maGuilde.getNbArm() + armReward);
 
-                    if (lev== chosenhero.getCategory() && ((chosenhero.getLifePoints() - lifeCost)>=0) ) {
-                        chosenhero.setLifePoints(chosenhero.getLifePoints() - lifeCost);
+        maGuilde.setMontant(maGuilde.getMontant() + goldReward);
+    } else if ((chosenhero.getLifePoints() - lifeCost) >= 0) {
+        // vie_enlevée - (niveau_actuelle - niveau_origine) * 1.5
 
-                        maGuilde.setNbArm(maGuilde.getNbArm() + armReward);
+        chosenhero.setLifePoints(chosenhero.getLifePoints() - (lifeCost - (chosenhero.getCategory() - lev) * 1.5));
 
-                        maGuilde.setMontant(maGuilde.getMontant() + goldReward);
-                    }
-                    else if ((chosenhero.getLifePoints() - lifeCost)>=0){
-                        // vie_enlevée - (niveau_actuelle - niveau_origine) * 1.5
+        maGuilde.setNbArm(maGuilde.getNbArm() + armReward);
 
-                        chosenhero.setLifePoints(chosenhero.getLifePoints() - (lifeCost-(chosenhero.getCategory()-lev)*1.5));
+        maGuilde.setMontant(maGuilde.getMontant() + goldReward);
 
-                        maGuilde.setNbArm(maGuilde.getNbArm() - armReward);
+        if (((chosenhero.getLifePoints() - lifeCost) < 0)) {
+            System.out.println("Quete echouee");
+            herosList.remove(chosenhero);
+        }
+    } else {
 
-                        maGuilde.setMontant(maGuilde.getMontant() - goldReward);
+        System.out.println("Quete echouee");
 
-                        if (((chosenhero.getLifePoints() - lifeCost)<0) ){
-                            System.out.println("Quete echouee");
-                            herosList.remove(chosenhero);
-                        }
-                    }else
-                    {
+    }
 
-                        System.out.println("Quete echouee");
-
-                    }
-
-
+}else{
+    System.out.println("NO heroes");
+}
                 }
                 case "train-hero": {
                     // TODO
@@ -155,15 +160,16 @@ break;
                 }
             }
         }
-      //  Guild Bank account: 107.5 gold & 7 armours
-      //  Heroes:
-      // -Berserker: level=2, HP=25.2
-        System.out.println("Guild Bank account: " + maGuilde.getMontant() + "" + " gold & "+ maGuilde.getNbArm()+"" + " armours");
 
-        System.out.println("Heroes: ");
 
+        String am=String.format("%.1f", maGuilde.getMontant());
+        System.out.println("Guild Bank account: " + am + " gold & "+ maGuilde.getNbArm()+"" + " armours");
+
+        if (herosList.size()>0) {
+            System.out.println("Heroes: ");
+        }
         for (int i=0;i<herosList.size();i++){
-            System.out.println(herosList.get(i).getName()+": level:" +herosList.get(i).getCategory() + " HP=" + herosList.get(i).getLifePoints());
+            System.out.println(herosList.get(i).getName()+": level:" +herosList.get(i).getCategory() + " HP=" + String.format("%.1f",herosList.get(i).getLifePoints()));
         }
 
     }
@@ -308,3 +314,5 @@ break;
         return returns;
     }
 }
+
+
