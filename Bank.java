@@ -5,14 +5,35 @@ import ca.udem.ift1025.tp1.corrige.guildcommands.GuildCommandSystem;
 
 public class Bank extends Guild{
 
-    private int amount;
+    protected int nbArm;
+    protected double montant;
 
-    public int getAmount() {
-        return amount;
+
+   public static void setterMont(double montant) {
+
+        setMontant((montant));
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public static void setterArm(int nbArm) {
+
+        setNbArm((nbArm));
+    }
+
+   // public int getterArm() {
+     //   return super.getNbArm();
+   // }
+
+    //public double getterMon() {
+   //     return super.getMontant();
+  //  }
+
+    public static void buyArms(int buyAm, double buyPr){
+        if (getMontant()>=buyPr*buyAm){
+            setterMont(getMontant()-(buyPr*buyAm));
+            setterArm(getNbArm()+buyAm);
+        }else{
+            System.out.println("Guild is broke :(");
+        }
     }
 
 
