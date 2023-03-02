@@ -24,13 +24,14 @@ public class Guild {
         return montant;
     }
 
-    public void setNbArm(int nbArm) {
-        this.nbArm = nbArm;
+    public static void setNbArm(int nbArm) {
+
+        Guild.nbArm = nbArm;
     }
 
-    public void setMontant(double montant) {
+    public static void setMontant(double montant) {
 
-        this.montant = montant;
+        Guild.montant = montant;
     }
 
 
