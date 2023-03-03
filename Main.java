@@ -129,7 +129,7 @@ public class Main {
                         int i = herosList.get(0).getCategory();
 
 
-                        Hero chosenhero = searchingAlgo(lev, herosList);
+                        Hero chosenhero = Quete.searchingAlgo(lev, herosList);
 
                         Quete.quest(boo,chosenhero,lev, lifeCost, maGuilde, goldReward,armReward);
 
@@ -252,98 +252,6 @@ for (int i=0;i< herosListRemove.size();i++){
 
         }
 
-        public static Hero searchingAlgo ( int level, LinkedList<Hero > herosList){
-            int i = -1;
-            boolean stop = true;
-            Hero returns = null;
-            while (stop == true) {
-
-                i++;
-
-                if (i == herosList.size() - 1) {
-                    stop = false;
-                }
-
-                //Case 1: Found one
-                //Since linkedlist is FIFI, we take first one
-                if (herosList.get(i).getCategory() == level) {
-
-                    stop = false;
-
-                    return herosList.get(i);
-
-
-                }
-
-
-            }
-
-            //CAN MAKE BETTER USING ABS
-            // TODO //again
-
-            // Case 2:  NOT found exact; search for nearest greater first
-            int nearestGr = herosList.get(0).getCategory();
-            int diffGr = level - nearestGr;
-            Hero selectedGr = null;
-            i = -1;
-            stop = true;
-            while (stop == true) {
-
-                i++;
-
-                if (i == (herosList.size() - 1)) {
-                    stop = false;
-
-                }
-
-
-                if (level - herosList.get(i).getCategory() <= diffGr) {
-
-                    diffGr = level - herosList.get(i).getCategory();
-
-                    selectedGr = herosList.get(i);
-
-                }
-
-
-            }
-            // Case 3:  NOT found exact; search for nearest less
-            int nearestLe = herosList.get(0).getCategory();
-            int diffLe = level - nearestGr;
-            Hero selectedLe = null;
-            i = -1;
-            stop = true;
-            while (stop == true) {
-
-                i++;
-
-                if (i == herosList.size() - 1) {
-                    stop = false;
-                }
-
-
-                if (level - herosList.get(i).getCategory() <= diffLe) {
-
-                    diffLe = level - herosList.get(i).getCategory();
-
-                    selectedLe = herosList.get(i);
-
-                }
-
-                if (diffGr < diffLe) {
-
-                    return selectedLe;
-                } else {
-
-                    return selectedGr;
-                }
-
-
-            }
-
-
-            return returns;
-        }
 
 
     //Creation of Guild
