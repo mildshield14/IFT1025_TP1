@@ -1,33 +1,43 @@
 package ca.udem.ift1025.tp1.corrige.guildcommands;
 
-import ca.udem.ift1025.tp1.corrige.guildcommands.GuildCommand;
-import ca.udem.ift1025.tp1.corrige.guildcommands.GuildCommandSystem;
+import static ca.udem.ift1025.tp1.corrige.guildcommands.Main.herosList;
+import static ca.udem.ift1025.tp1.corrige.guildcommands.Main.herosListRemove;
+
+public class Quete {
 
 
-public class Quete extends Guild{
+public static void quest(boolean boo, Hero chosenhero,int lev, double lifeCost, Guild maGuilde, double goldReward, int armReward){
+    //CALCULATIONS:
 
-    private double lifeCost;
-    private int cashReward;
-    private int armorReward;
+                        if (lev == chosenhero.getCategory() && ((chosenhero.getLifePoints() - lifeCost) >= 0)) {
+        chosenhero.setLifePoints(chosenhero.getLifePoints() - lifeCost);
+
+        maGuilde.setNbArm(maGuilde.getNbArm() + armReward);
+
+        maGuilde.setMontant(maGuilde.getMontant() + goldReward);
+    } else if ((chosenhero.getLifePoints() - lifeCost) >= 0) {
+        // vie_enlevée - (niveau_actuelle - niveau_origine) * 1.5
+
+        chosenhero.setLifePoints(chosenhero.getLifePoints() - (lifeCost - (chosenhero.getCategory() - lev) * 1.5));
+
+        maGuilde.setNbArm(maGuilde.getNbArm() + armReward);
+
+        maGuilde.setMontant(maGuilde.getMontant() + goldReward);
+
+        if (((chosenhero.getLifePoints() - lifeCost) < 0)) {
+            System.out.println("Quete echouee");
+
+            herosListRemove.add(chosenhero.getName());
+            herosList.remove(chosenhero);
+
+            Main.setBoo1(true);
 
 
-    public void doQuest(){
-
-        level category=getCategory();
-        double life=
-        setLifePoints(lifeCost)
-        for (int i=0;i<heroList.length;i++){
-            //TO-DO; Sorting Algo
         }
+    } else {
 
-        for (int i=0;i<heroList.length;i++){
-            //TO-DO; Search category
-        }
-
-
-
+        System.out.println("Quete echouee");
 
     }
 
-
-}
+}  }
