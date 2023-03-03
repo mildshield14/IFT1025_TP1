@@ -47,6 +47,8 @@ public class Main {
 
                     double lifePoints = command.nextDouble();
 
+                    double maxLifePoints = lifePoints;
+
 
 
                     //creation of objects based on categories using polymorphism;
@@ -55,21 +57,21 @@ public class Main {
                     switch (lev) {
 
                         case 0:
-                            name1 = new Common(name, costHero, nbArms, lifePoints,lev);
+                            name1 = new Common(name, costHero, nbArms, lifePoints,lev, maxLifePoints);
 
                             break;
                         case 1:
-                            name1 = new Uncommon(name, costHero, nbArms, lifePoints,lev);
+                            name1 = new Uncommon(name, costHero, nbArms, lifePoints,lev, maxLifePoints);
 
                             break;
                         case 2:
-                            name1 = new Rare(name, costHero, nbArms, lifePoints,lev);
+                            name1 = new Rare(name, costHero, nbArms, lifePoints,lev, maxLifePoints);
                             break;
                         case 3:
-                            name1 = new Epic(name, costHero, nbArms, lifePoints,lev);
+                            name1 = new Epic(name, costHero, nbArms, lifePoints,lev, maxLifePoints);
                             break;
                         case 4:
-                            name1 = new Legendary(name, costHero, nbArms, lifePoints,lev);
+                            name1 = new Legendary(name, costHero, nbArms, lifePoints,lev, maxLifePoints);
                             break;
 
                         default:
