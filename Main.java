@@ -5,6 +5,13 @@ import java.util.LinkedList;
 public class Main {
 
     public static boolean boo1;
+    //To store heroes of the Guild we use a linked list
+   public static  LinkedList<Hero> herosList = new LinkedList<>();
+    public static LinkedList<String> herosListRemove = new LinkedList<>();
+
+    public static void setBoo1(boolean boo1) {
+        Main.boo1 = boo1;
+    }
 
     /**
      * Args: array with
@@ -21,9 +28,7 @@ public class Main {
 
         Guild maGuilde = makeGuilde(guildCommandSystem.actualCommand());
 
-        //To store heroes of the Guild we use a linked list
-        LinkedList<Hero> herosList = new LinkedList<>();
-        LinkedList<String> herosListRemove = new LinkedList<>();
+
 
         //To decode input info and create objects after checking for uniqueness
         boolean boo = false;
@@ -123,43 +128,12 @@ public class Main {
                         int armReward = command.nextInt();
                         int i = herosList.get(0).getCategory();
 
+
                         Hero chosenhero = searchingAlgo(lev, herosList);
 
+                        Quete.quest(boo,chosenhero,lev, lifeCost, maGuilde, goldReward,armReward);
 
-                        //CALCULATIONS:
-
-                        if (lev == chosenhero.getCategory() && ((chosenhero.getLifePoints() - lifeCost) >= 0)) {
-                            chosenhero.setLifePoints(chosenhero.getLifePoints() - lifeCost);
-
-                            maGuilde.setNbArm(maGuilde.getNbArm() + armReward);
-
-                            maGuilde.setMontant(maGuilde.getMontant() + goldReward);
-                        } else if ((chosenhero.getLifePoints() - lifeCost) >= 0) {
-                            // vie_enlevée - (niveau_actuelle - niveau_origine) * 1.5
-
-                            chosenhero.setLifePoints(chosenhero.getLifePoints() - (lifeCost - (chosenhero.getCategory() - lev) * 1.5));
-
-                            maGuilde.setNbArm(maGuilde.getNbArm() + armReward);
-
-                            maGuilde.setMontant(maGuilde.getMontant() + goldReward);
-
-                            if (((chosenhero.getLifePoints() - lifeCost) < 0)) {
-                                System.out.println("Quete echouee");
-
-                                herosListRemove.add(chosenhero.getName());
-                                herosList.remove(chosenhero);
-
-                                boo = true;
-                            }
-                        } else {
-
-                            System.out.println("Quete echouee");
-
-                        }
-
-                    } else {
-                        System.out.println("NO heroes");
-                    }
+                }
                 }
                 break;
 
