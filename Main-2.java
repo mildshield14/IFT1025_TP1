@@ -154,7 +154,29 @@ if (herosList.size()>0) {
 }
                 }
                 case "train-hero": {
-                    // TODO
+                     String name = command.nextString();
+                    int heroposition = herosList.indexOf(name);
+                    if (heroposition != -1) {
+                        if (herosList.get(heroposition).getCategory()>=0 &&
+                                herosList.get(heroposition).getCategory()<4) {
+                            double trainingCostInGold = 20*Math.log(herosList.get(heroposition).getCategory()+10);//<- prix
+                            double ArmorsCost = Math.log(herosList.get(heroposition).getCategory()+10);
+                            double trainingCostInArmors = Math.ceil(ArmorsCost);//<- prix armures
+                            int ArmorInventory = maGuilde.getNbArm();
+                            double GoldInventory = maGuilde.getMontant();
+
+                            if (trainingCostInGold <= GoldInventory && trainingCostInArmors <= ArmorInventory) {
+                                herosList.get(heroposition).setMaxLifePoints(
+                                        herosList.get(heroposition).getMaxLifePoints()*1.5);
+                                herosList.get(heroposition).setLifePoints(
+                                        herosList.get(heroposition).getLifePoints()*1.5);
+                                herosList.get(heroposition).setCategory(herosList.get(heroposition).getCategory()+1);
+                        }
+                        else if(trainingCostInGold > GoldInventory || trainingCostInArmors > ArmorInventory) {
+                            System.out.println("The Guild doesn't have enough resources to proceed.");
+                        }
+
+                    }
 
 
                 }
