@@ -82,11 +82,11 @@ public class Main {
                         myGuild.setNbArm(myGuild.getNbArm() - nbArms);
 
                     } else {
-                        double newCost = (myGuild.getGold() - priceHero);
+                        double newPrice = (myGuild.getGold() - priceHero);
                         int newArms = (myGuild.getNbArm() - nbArms);
 
-                        if (newCost < 0) {
-                            System.out.println("Not enough money for " + name1.getName() + " :(" + " | you could be in debt of : " + String.format("%.1f", newCost));
+                        if (newPrice < 0) {
+                            System.out.println("Not enough money for " + name1.getName() + " :(" + " | you could be in debt of : " + String.format("%.1f", newPrice));
                         }
                         if (newArms < 0) {
                             System.out.println("Not enough arms for " + name1.getName() + " :(" + " | you could be in debt of : " + -1 * newArms + "");
@@ -137,24 +137,24 @@ public class Main {
 
                         if (heroBeingTrained.getCategory() >= 0 && heroBeingTrained.getCategory() < 4) {
 
-                            double trainingCostInGold = 20 * Math.log(heroBeingTrained.getCategory() + 10);//<- prix
+                            double trainingPriceInGold = 20 * Math.log(heroBeingTrained.getCategory() + 10);//<- prix
                             double c=Math.log(heroBeingTrained.getCategory() + 10);
                             double d = Math.ceil(c);
-                            int ArmorsCost=(int)d;
-                            double trainingCostInArmors = Math.ceil(trainingCostInGold);//<- prix armures
-                            int ArmorInventory = myGuild.getNbArm();
-                            double GoldInventory = myGuild.getGold();
+                            int armoursPrice=(int)d;
+                            double trainingPriceInArmors = Math.ceil(trainingPriceInGold);//<- prix armures
+                            int armourInventory = myGuild.getNbArm();
+                            double goldInventory = myGuild.getGold();
 
-                            if (myGuild.getGold()-trainingCostInArmors>0 && myGuild.getNbArm()-ArmorsCost>0) {
+                            if (myGuild.getGold()-trainingPriceInArmors>0 && myGuild.getNbArm()-armoursPrice>0) {
 
-                                myGuild.setGold(myGuild.getGold()-trainingCostInArmors);
-                                myGuild.setNbArm(myGuild.getNbArm()-ArmorsCost);
+                                myGuild.setGold(myGuild.getGold()-trainingPriceInArmors);
+                                myGuild.setNbArm(myGuild.getNbArm()-armoursPrice);
 
                                 heroBeingTrained.setMaxHealthPoints(heroBeingTrained.getMaxHealthPoints() * 1.5);
                                 heroBeingTrained.setHealthPoints(heroBeingTrained.getHealthPoints() * 1.5);
                                 heroBeingTrained.setCategory(heroBeingTrained.getCategory() + 1);
 
-                            } else if (trainingCostInGold > GoldInventory || trainingCostInArmors > ArmorInventory) {
+                            } else if (trainingPriceInGold > goldInventory || trainingPriceInArmors > armourInventory) {
                                 enoughResources=true;
                             }
 
@@ -222,8 +222,8 @@ public class Main {
             if (unique) {
                 herosList.add(objHero);
 
-                myGuild.setGold(myGuild.getGold() - objHero.getCashCost());
-                myGuild.setNbArm(myGuild.getNbArm() - objHero.getArmorCost());
+                myGuild.setGold(myGuild.getGold() - objHero.getCashPrice());
+                myGuild.setNbArm(myGuild.getNbArm() - objHero.getArmorPrice());
 
             } else {
                 System.out.println("Error; input another one as " + " " + n + " already exists");
@@ -243,4 +243,3 @@ public class Main {
             return myGuild;
         }
 }
-
