@@ -1,6 +1,7 @@
 package ca.udem.ift1025.tp1.corrige.guildcommands;
 
 import java.util.LinkedList;
+import java.lang.Math;
 
 public class Main {
 
@@ -117,8 +118,8 @@ public class Main {
 
                         Quest.quest(unique,chosenhero,level, hpRequired, myGuild, goldReward,armReward);
 
-                }
-            } break;
+                    }
+                } break;
 
                 case "train-hero": {
                     String name = command.nextString();
@@ -130,18 +131,22 @@ public class Main {
                     }
 
                     if(heroBeingTrained == null){
-                           herosListRemove.add(name);
+                        herosListRemove.add(name);
                     }
-
+                    //If the hero exists in the guild we can check if he isn't already at the max level (4)
                     if (heroBeingTrained != null) {
 
                         if (heroBeingTrained.getCategory() >= 0 && heroBeingTrained.getCategory() < 4) {
 
-                            double trainingPriceInGold = 20 * Math.log(heroBeingTrained.getCategory() + 10);//<- prix
-                            double c=Math.log(heroBeingTrained.getCategory() + 10);
-                            double d = Math.ceil(c);
-                            int armoursPrice=(int)d;
-                            double trainingPriceInArmors = Math.ceil(trainingPriceInGold);//<- prix armures
+                            //Then we have to see if the guild has enough armours and gold to train the hero
+
+                            double trainingPriceInGold = 20 * Math.log(heroBeingTrained.getCategory() + 10);
+
+                            double armours=Math.log(heroBeingTrained.getCategory() + 10);
+                            double ceilArmours = Math.ceil(armours);
+                            int armoursPrice=(int)ceilArmours;
+                            double trainingPriceInArmors = Math.ceil(trainingPriceInGold);
+
                             int armourInventory = myGuild.getNbArm();
                             double goldInventory = myGuild.getGold();
 
@@ -149,12 +154,15 @@ public class Main {
 
                                 myGuild.setGold(myGuild.getGold()-trainingPriceInArmors);
                                 myGuild.setNbArm(myGuild.getNbArm()-armoursPrice);
-
+                                
+                                //Setting the new level, maximum health points and health points after training
                                 heroBeingTrained.setMaxHealthPoints(heroBeingTrained.getMaxHealthPoints() * 1.5);
                                 heroBeingTrained.setHealthPoints(heroBeingTrained.getHealthPoints() * 1.5);
                                 heroBeingTrained.setCategory(heroBeingTrained.getCategory() + 1);
 
-                            } else if (trainingPriceInGold > goldInventory || trainingPriceInArmors > armourInventory) {
+                            } 
+                            
+                            else if (trainingPriceInGold > goldInventory || trainingPriceInArmors > armourInventory) {
                                 enoughResources=true;
                             }
 
@@ -191,55 +199,55 @@ public class Main {
         for (int i=0;i< herosListRemove.size();i++){
             System.out.println("-"+herosListRemove.get(i)+ " is not on the list");
         }
-}
+    }
 
-         //procedure to check uniqueness
-        public static void checkUnique (Hero objHero, LinkedList < Hero > herosList, Guild myGuild){
+    //procedure to check uniqueness
+    public static void checkUnique (Hero objHero, LinkedList < Hero > herosList, Guild myGuild){
 
-            String n = objHero.getName();
-            int i = -1;
-            boolean unique = true;
-            boolean stop = true;
+        String n = objHero.getName();
+        int i = -1;
+        boolean unique = true;
+        boolean stop = true;
 
-            while (stop == true) {
+        while (stop == true) {
 
-                i++;
-                Hero n2 = herosList.get(i);
-                String name2 = n2.getName();
+            i++;
+            Hero n2 = herosList.get(i);
+            String name2 = n2.getName();
 
-                if (name2.equals(n)) {
-                    stop = false;
-                    unique = false;
-                }
-
-                if (i == herosList.size() - 1) {
-                    stop = false;
-                }
-
+            if (name2.equals(n)) {
+                stop = false;
+                unique = false;
             }
 
-
-            if (unique) {
-                herosList.add(objHero);
-
-                myGuild.setGold(myGuild.getGold() - objHero.getCashPrice());
-                myGuild.setNbArm(myGuild.getNbArm() - objHero.getArmorPrice());
-
-            } else {
-                System.out.println("Error; input another one as " + " " + n + " already exists");
+            if (i == herosList.size() - 1) {
+                stop = false;
             }
-
 
         }
+
+
+        if (unique) {
+            herosList.add(objHero);
+
+            myGuild.setGold(myGuild.getGold() - objHero.getCashPrice());
+            myGuild.setNbArm(myGuild.getNbArm() - objHero.getArmorPrice());
+
+        } else {
+            System.out.println("Error; input another one as " + " " + n + " already exists");
+        }
+
+
+    }
 
 
 
     //Creation of Guild
-        public static Guild makeGuilde(GuildCommand command) {
-            double goldInitial = command.nextDouble();
-            int nbArmures = command.nextInt();
-            Guild myGuild = new Guild(goldInitial, nbArmures);
-            myGuild.setGold(goldInitial);
-            return myGuild;
-        }
+    public static Guild makeGuilde(GuildCommand command) {
+        double goldInitial = command.nextDouble();
+        int nbArmures = command.nextInt();
+        Guild myGuild = new Guild(goldInitial, nbArmures);
+        myGuild.setGold(goldInitial);
+        return myGuild;
+    }
 }
