@@ -179,7 +179,7 @@ public class Main {
         }
 
         for (int i = 0; i < herosList.size(); i++) {
-            System.out.println("-"+herosList.get(i).getName() + ": levelel:" + herosList.get(i).getCategory() + " HP=" + String.format("%.1f", herosList.get(i).getHealthPoints()));
+            System.out.println("-"+herosList.get(i).getName() + ": level:" + herosList.get(i).getCategory() + " HP=" + String.format("%.1f", herosList.get(i).getHealthPoints()));
         }
 
         if (enoughResources == true){
