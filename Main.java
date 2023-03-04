@@ -179,16 +179,17 @@ public class Main {
         }
 
         for (int i = 0; i < herosList.size(); i++) {
-            System.out.println(herosList.get(i).getName() + ": level:" + herosList.get(i).getCategory() + " HP=" + String.format("%.1f", herosList.get(i).getLifePoints()));
+            System.out.println("-"+herosList.get(i).getName() + ": level:" + herosList.get(i).getCategory() + " HP=" + String.format("%.1f", herosList.get(i).getLifePoints()));
         }
 
         if (enoughResources == true){
-            System.out.println("The Guild doesn't have enough resources to proceed.");
+            System.out.println("Error:");
+            System.out.println("-"+"The Guild doesn't have enough resources to proceed.");
         }
 
 
         for (int i=0;i< herosListRemove.size();i++){
-            System.out.println(herosListRemove.get(i)+ " is not on the list");
+            System.out.println("-"+herosListRemove.get(i)+ " is not on the list");
         }
 }
 
