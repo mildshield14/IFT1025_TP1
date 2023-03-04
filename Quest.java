@@ -9,7 +9,7 @@ public class Quest {
      //procedure that will perform the quest of selected hero
      public static void quest(boolean boo, Hero chosenhero,int lev, double hpRequired, Guild myGuild, double goldReward, int armReward){
          // checks if enough HP
-         if ((chosenhero.getLifePoints() - hpRequired) >= 0){
+         if ((chosenhero.getHealthPoints() - hpRequired) >= 0){
 
              setDataGuild(chosenhero, myGuild, hpRequired, lev, armReward, goldReward);
 
@@ -27,11 +27,11 @@ public class Quest {
      }
 
      public static void setDataGuild(Hero chosenhero, Guild myGuild, double hpRequired, int lev, int armReward, double goldReward){
-            chosenhero.setLifePoints(chosenhero.getLifePoints() - (hpRequired - (chosenhero.getCategory() - lev) * 1.5));
+            chosenhero.setHealthPoints(chosenhero.getHealthPoints() - (hpRequired - (chosenhero.getCategory() - lev) * 1.5));
     
             myGuild.setNbArm(myGuild.getNbArm() + armReward);
     
-            myGuild.setMontant(myGuild.getMontant() + goldReward);
+            myGuild.setGold(myGuild.getGold() + goldReward);
      }
 
      //Linear Search (better for Linked List since no sorting is required)
