@@ -19,13 +19,6 @@ public class Bank extends Guild{
         setNbArm((nbArm));
     }
 
-   // public int getterArm() {
-     //   return super.getNbArm();
-   // }
-
-    //public double getterMon() {
-   //     return super.getMontant();
-  //  }
 
     public static void buyArms(int buyAm, double buyPr){
         if (getMontant()>=buyPr*buyAm){
