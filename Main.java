@@ -154,19 +154,26 @@ public class Main {
 
                                 myGuild.setGold(myGuild.getGold()-trainingPriceInArmors);
                                 myGuild.setNbArm(myGuild.getNbArm()-armoursPrice);
-                                
+
                                 //Setting the new level, maximum health points and health points after training
                                 heroBeingTrained.setMaxHealthPoints(heroBeingTrained.getMaxHealthPoints() * 1.5);
                                 heroBeingTrained.setHealthPoints(heroBeingTrained.getHealthPoints() * 1.5);
                                 heroBeingTrained.setCategory(heroBeingTrained.getCategory() + 1);
 
-                            } 
-                            
+                            }
+
                             else if (trainingPriceInGold > goldInventory || trainingPriceInArmors > armourInventory) {
                                 enoughResources=true;
                             }
 
                         }
+                        else if (heroBeingTrained.getCategory() == 4){
+                            System.out.println(heroBeingTrained.getName() + "already reached the highest category.");
+                        }
+                        else if (heroBeingTrained.getCategory() < 0 || heroBeingTrained.getCategory() > 4){
+                            System.out.println("Invalid category.");
+                        }
+
 
 
                     }
@@ -239,6 +246,18 @@ public class Main {
 
 
     }
+
+
+
+    //Creation of Guild
+    public static Guild makeGuilde(GuildCommand command) {
+        double goldInitial = command.nextDouble();
+        int nbArmures = command.nextInt();
+        Guild myGuild = new Guild(goldInitial, nbArmures);
+        myGuild.setGold(goldInitial);
+        return myGuild;
+    }
+}
 
 
 
