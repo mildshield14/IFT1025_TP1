@@ -3,8 +3,8 @@ package ca.udem.ift1025.tp1.corrige.guildcommands;
 public class Hero{
 
     private String name;
-    private double cashCost;
-    private int armorCost;
+    private double cashPrice;
+    private int armorPrice;
     private double lifePoints;
     private double maxLifePoints;
     int category;
@@ -13,11 +13,11 @@ public class Hero{
         return category;
     }
 
-    public Hero(String name, double cashCost, int armorCost, double lifePoints, int category, double maxLifePoints) {
+    public Hero(String name, double cashPrice, int armorPrice, double lifePoints, int category, double maxLifePoints) {
 
         this.name = name;
-        this.armorCost = armorCost;
-        this.cashCost = cashCost;
+        this.armorPrice = armorPrice;
+        this.cashPrice = cashPrice;
         this.lifePoints = lifePoints;
         this.category = category;
         this.maxLifePoints = maxLifePoints;
@@ -27,28 +27,27 @@ public class Hero{
     public String getName() {
         return name;
     }
-    public double getCashCost() {
-        return cashCost;
+    public double getCashPrice() {
+        return cashPrice;
     }
-    public double getLifePoints() {
+    public double getHealthPoints() {
         return lifePoints;
     }
-    public int getArmorCost() {
-        return armorCost;
+    public int getArmorPrice() {
+        return armorPrice;
     }
-    public double getMaxLifePoints() {
+    public double getMaxHealthPoints() {
         return maxLifePoints;
     }
 
     //setters
-    public void setLifePoints(double lifePoints) {
+    public void setHealthPoints(double lifePoints) {
         this.lifePoints = lifePoints;
     }
-    public void setMaxLifePoints(double maxLifePoints) {
+    public void setMaxHealthPoints(double maxLifePoints) {
         this.maxLifePoints = maxLifePoints;
     }
     public void setCategory(int category) {
         this.category = category;
     }
 }
-
