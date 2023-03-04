@@ -41,48 +41,48 @@ public class Main {
                 case "buy-hero": {
 
                     String name = command.nextString();
-                    int lev = command.nextInt();
-                    double costHero = command.nextDouble();
+                    int level = command.nextInt();
+                    double priceHero = command.nextDouble();
                     int nbArms = command.nextInt();
-                    double lifePoints = command.nextDouble();
-                    double maxLifePoints = lifePoints;
+                    double healthPoints = command.nextDouble();
+                    double maxHealthPoints = healthPoints;
 
                     //creation of objects based on categories using polymorphism;
                     Hero name1;
 
-                    switch (lev) {
+                    switch (level) {
 
                         case 0:
-                            name1 = new Common(name, costHero, nbArms, lifePoints, lev, maxLifePoints);
+                            name1 = new Common(name, priceHero, nbArms, healthPoints, level, maxHealthPoints);
                             break;
                         case 1:
-                            name1 = new Uncommon(name, costHero, nbArms, lifePoints, lev, maxLifePoints);
+                            name1 = new Uncommon(name, priceHero, nbArms, healthPoints, level, maxHealthPoints);
                             break;
                         case 2:
-                            name1 = new Rare(name, costHero, nbArms, lifePoints, lev, maxLifePoints);
+                            name1 = new Rare(name, priceHero, nbArms, healthPoints, level, maxHealthPoints);
                             break;
                         case 3:
-                            name1 = new Epic(name, costHero, nbArms, lifePoints, lev, maxLifePoints);
+                            name1 = new Epic(name, priceHero, nbArms, healthPoints, level, maxHealthPoints);
                             break;
                         case 4:
-                            name1 = new Legendary(name, costHero, nbArms, lifePoints, lev, maxLifePoints);
+                            name1 = new Legendary(name, priceHero, nbArms, healthPoints, level, maxHealthPoints);
                             break;
 
                         default:
-                            throw new IllegalArgumentException("Invalid level");
+                            throw new IllegalArgumentException("Invalid levelel");
                     }
 
                     //checking for uniqueness
-                    if (herosList.size() != 0 && myGuild.getMontant() >= costHero && myGuild.getNbArm() >= nbArms) {
+                    if (herosList.size() != 0 && myGuild.getGold() >= priceHero && myGuild.getNbArm() >= nbArms) {
                         checkUnique(name1, herosList, myGuild);
-                    } else if (myGuild.getMontant() >= costHero && myGuild.getNbArm() >= nbArms) {
+                    } else if (myGuild.getGold() >= priceHero && myGuild.getNbArm() >= nbArms) {
                         herosList.add(name1);
 
-                        myGuild.setMontant(myGuild.getMontant() - costHero);
+                        myGuild.setGold(myGuild.getGold() - priceHero);
                         myGuild.setNbArm(myGuild.getNbArm() - nbArms);
 
                     } else {
-                        double newCost = (myGuild.getMontant() - costHero);
+                        double newCost = (myGuild.getGold() - priceHero);
                         int newArms = (myGuild.getNbArm() - nbArms);
 
                         if (newCost < 0) {
@@ -107,52 +107,52 @@ public class Main {
                 case "do-quest": {
                     if (herosList.size() > 0) {
 
-                        int lev = command.nextInt();
+                        int level = command.nextInt();
                         double hpRequired = command.nextDouble();
                         int goldReward = command.nextInt();
                         int armReward = command.nextInt();
                         int i = herosList.get(0).getCategory();
 
-                        Hero chosenhero = Quest.searchingAlgo(lev, herosList);
+                        Hero chosenhero = Quest.searchingAlgo(level, herosList);
 
-                        Quest.quest(unique,chosenhero,lev, hpRequired, myGuild, goldReward,armReward);
+                        Quest.quest(unique,chosenhero,level, hpRequired, myGuild, goldReward,armReward);
 
                 }
             } break;
 
                 case "train-hero": {
                     String name = command.nextString();
-                    Hero obje = null;
+                    Hero heroBeingTrained = null;
                     for (int i = 0; i < herosList.size(); i++) {
                         if (herosList.get(i).getName().equals(name)) {
-                            obje = herosList.get(i);
+                            heroBeingTrained = herosList.get(i);
                         }
                     }
 
-                    if(obje == null){
+                    if(heroBeingTrained == null){
                            herosListRemove.add(name);
                     }
 
-                    if (obje != null) {
+                    if (heroBeingTrained != null) {
 
-                        if (obje.getCategory() >= 0 && obje.getCategory() < 4) {
+                        if (heroBeingTrained.getCategory() >= 0 && heroBeingTrained.getCategory() < 4) {
 
-                            double trainingCostInGold = 20 * Math.log(obje.getCategory() + 10);//<- prix
-                            double c=Math.log(obje.getCategory() + 10);
+                            double trainingCostInGold = 20 * Math.log(heroBeingTrained.getCategory() + 10);//<- prix
+                            double c=Math.log(heroBeingTrained.getCategory() + 10);
                             double d = Math.ceil(c);
                             int ArmorsCost=(int)d;
                             double trainingCostInArmors = Math.ceil(trainingCostInGold);//<- prix armures
                             int ArmorInventory = myGuild.getNbArm();
-                            double GoldInventory = myGuild.getMontant();
+                            double GoldInventory = myGuild.getGold();
 
-                            if (myGuild.getMontant()-trainingCostInArmors>0 && myGuild.getNbArm()-ArmorsCost>0) {
+                            if (myGuild.getGold()-trainingCostInArmors>0 && myGuild.getNbArm()-ArmorsCost>0) {
 
-                                myGuild.setMontant(myGuild.getMontant()-trainingCostInArmors);
+                                myGuild.setGold(myGuild.getGold()-trainingCostInArmors);
                                 myGuild.setNbArm(myGuild.getNbArm()-ArmorsCost);
 
-                                obje.setMaxLifePoints(obje.getMaxLifePoints() * 1.5);
-                                obje.setLifePoints(obje.getLifePoints() * 1.5);
-                                obje.setCategory(obje.getCategory() + 1);
+                                heroBeingTrained.setMaxHealthPoints(heroBeingTrained.getMaxHealthPoints() * 1.5);
+                                heroBeingTrained.setHealthPoints(heroBeingTrained.getHealthPoints() * 1.5);
+                                heroBeingTrained.setCategory(heroBeingTrained.getCategory() + 1);
 
                             } else if (trainingCostInGold > GoldInventory || trainingCostInArmors > ArmorInventory) {
                                 enoughResources=true;
@@ -171,7 +171,7 @@ public class Main {
 
         //Output message
         System.out.println("");
-        String am = String.format("%.1f", myGuild.getMontant());
+        String am = String.format("%.1f", myGuild.getGold());
         System.out.println("Guild Bank account: " + am + " gold & " + myGuild.getNbArm() + "" + " armours");
 
         if (herosList.size() > 0) {
@@ -179,7 +179,7 @@ public class Main {
         }
 
         for (int i = 0; i < herosList.size(); i++) {
-            System.out.println("-"+herosList.get(i).getName() + ": level:" + herosList.get(i).getCategory() + " HP=" + String.format("%.1f", herosList.get(i).getLifePoints()));
+            System.out.println("-"+herosList.get(i).getName() + ": levelel:" + herosList.get(i).getCategory() + " HP=" + String.format("%.1f", herosList.get(i).getHealthPoints()));
         }
 
         if (enoughResources == true){
@@ -222,7 +222,7 @@ public class Main {
             if (unique) {
                 herosList.add(objHero);
 
-                myGuild.setMontant(myGuild.getMontant() - objHero.getCashCost());
+                myGuild.setGold(myGuild.getGold() - objHero.getCashCost());
                 myGuild.setNbArm(myGuild.getNbArm() - objHero.getArmorCost());
 
             } else {
@@ -236,10 +236,10 @@ public class Main {
 
     //Creation of Guild
         public static Guild makeGuilde(GuildCommand command) {
-            double montantInitial = command.nextDouble();
+            double goldInitial = command.nextDouble();
             int nbArmures = command.nextInt();
-            Guild myGuild = new Guild(montantInitial, nbArmures);
-            myGuild.setMontant(montantInitial);
+            Guild myGuild = new Guild(goldInitial, nbArmures);
+            myGuild.setGold(goldInitial);
             return myGuild;
         }
 }
