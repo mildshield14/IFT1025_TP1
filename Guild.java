@@ -2,12 +2,12 @@ package ca.udem.ift1025.tp1.corrige.guildcommands;
 
 public class Guild {
 
-    public static double setMontant;
-    private static double montant;
+
+    private static double gold;
     private static int nbArm;
 
-    public Guild(double montant, int nbArm){
-        this.montant=montant;
+    public Guild(double gold, int nbArm){
+        this.gold=gold;
         this.nbArm=nbArm;
     }
 
@@ -19,16 +19,16 @@ public class Guild {
         return nbArm;
     }
 
-    public static double getMontant() {
-        return montant;
+    public static double getGold() {
+        return gold;
     }
 
     public static void setNbArm(int nbArm) {
         Guild.nbArm = nbArm;
     }
 
-    public static void setMontant(double montant) {
-        Guild.montant = montant;
+    public static void setGold(double gold) {
+        Guild.gold = gold;
     }
 
 }
