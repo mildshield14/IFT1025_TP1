@@ -6,7 +6,6 @@ public class Guild {
     private static double montant;
     private static int nbArm;
 
-
     public Guild(double montant, int nbArm){
         this.montant=montant;
         this.nbArm=nbArm;
@@ -25,14 +24,11 @@ public class Guild {
     }
 
     public static void setNbArm(int nbArm) {
-
         Guild.nbArm = nbArm;
     }
 
     public static void setMontant(double montant) {
-
         Guild.montant = montant;
     }
-
 
 }
