@@ -1,43 +1,67 @@
 package ca.udem.ift1025.tp1.corrige.guildcommands;
 
+import java.util.LinkedList;
+
 import static ca.udem.ift1025.tp1.corrige.guildcommands.Main.herosList;
 import static ca.udem.ift1025.tp1.corrige.guildcommands.Main.herosListRemove;
+public class Quest {
+    
+     //procedure that will perform the quest of selected hero
+     public static void quest(boolean boo, Hero chosenhero,int lev, double hpRequired, Guild myGuild, double goldReward, int armReward){
+         // checks if enough HP
+         if ((chosenhero.getLifePoints() - hpRequired) >= 0){
 
-public class Quete {
+             setDataGuild(chosenhero, myGuild, hpRequired, lev, armReward, goldReward);
 
+         } else {
+                System.out.println("Quete echouee");
+                
+                //storing removed name for output at the end
+                herosListRemove.add(chosenhero.getName());
+                herosList.remove(chosenhero);
 
-public static void quest(boolean boo, Hero chosenhero,int lev, double lifeCost, Guild maGuilde, double goldReward, int armReward){
-    //CALCULATIONS:
+                // no resources
+                 Main.setEnoughResources(true);
+                 
+            }
+     }
 
-                        if (lev == chosenhero.getCategory() && ((chosenhero.getLifePoints() - lifeCost) >= 0)) {
-        chosenhero.setLifePoints(chosenhero.getLifePoints() - lifeCost);
+     public static void setDataGuild(Hero chosenhero, Guild myGuild, double hpRequired, int lev, int armReward, double goldReward){
+            chosenhero.setLifePoints(chosenhero.getLifePoints() - (hpRequired - (chosenhero.getCategory() - lev) * 1.5));
+    
+            myGuild.setNbArm(myGuild.getNbArm() + armReward);
+    
+            myGuild.setMontant(myGuild.getMontant() + goldReward);
+     }
 
-        maGuilde.setNbArm(maGuilde.getNbArm() + armReward);
+     //Linear Search (better for Linked List since no sorting is required)
+     public static Hero searchingAlgo(int level, LinkedList<Hero> herosList) {
+         Hero selectedGr = herosList.get(0);
+         Hero selectedLe = herosList.get(0);
+         int diffGr = Math.abs(level - selectedGr.getCategory());
+         int diffLe = Math.abs(level - selectedLe.getCategory());
 
-        maGuilde.setMontant(maGuilde.getMontant() + goldReward);
-    } else if ((chosenhero.getLifePoints() - lifeCost) >= 0) {
-        // vie_enlevée - (niveau_actuelle - niveau_origine) * 1.5
+         for (int i = 0; i < herosList.size(); i++) {
+             if (herosList.get(i).getCategory() == level) {
+                 return herosList.get(i);
+             }
 
-        chosenhero.setLifePoints(chosenhero.getLifePoints() - (lifeCost - (chosenhero.getCategory() - lev) * 1.5));
+             int diff = Math.abs(level - herosList.get(i).getCategory());
 
-        maGuilde.setNbArm(maGuilde.getNbArm() + armReward);
+             if (herosList.get(i).getCategory() > level && diff < diffGr) {
+                 diffGr = diff;
+                 selectedGr = herosList.get(i);
+             } else if (herosList.get(i).getCategory() < level && diff < diffLe) {
+                 diffLe = diff;
+                 selectedLe = herosList.get(i);
+             }
+         }
 
-        maGuilde.setMontant(maGuilde.getMontant() + goldReward);
-
-        if (((chosenhero.getLifePoints() - lifeCost) < 0)) {
-            System.out.println("Quete echouee");
-
-            herosListRemove.add(chosenhero.getName());
-            herosList.remove(chosenhero);
-
-            Main.setBoo1(true);
-
-
-        }
-    } else {
-
-        System.out.println("Quete echouee");
-
-    }
-
-}  }
+         if (selectedLe == null || diffGr < diffLe) {
+             return selectedGr;
+         } else {
+             return selectedLe;
+         }
+     }
+     
+}
