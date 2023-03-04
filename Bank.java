@@ -6,12 +6,12 @@ import ca.udem.ift1025.tp1.corrige.guildcommands.GuildCommandSystem;
 public class Bank extends Guild{
 
     protected int nbArm;
-    protected double montant;
+    protected double gold;
 
 
-   public static void setterMont(double montant) {
+   public static void setterGold(double gold) {
 
-        setMontant((montant));
+        setGold((gold));
     }
 
     public static void setterArm(int nbArm) {
@@ -21,8 +21,8 @@ public class Bank extends Guild{
 
 
     public static void buyArms(int buyAm, double buyPr){
-        if (getMontant()>=buyPr*buyAm){
-            setterMont(getMontant()-(buyPr*buyAm));
+        if (getGold()>=buyPr*buyAm){
+            setterGold(getGold()-(buyPr*buyAm));
             setterArm(getNbArm()+buyAm);
         }else{
             System.out.println("Guild is broke :(");
