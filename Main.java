@@ -47,7 +47,7 @@ public class Main {
             String what = command.getName();
 
             switch (what) {
-                    
+
                 case "buy-hero": {
 
                     String name = command.nextString();
@@ -79,13 +79,13 @@ public class Main {
                             break;
 
                         default:
-                            throw new IllegalArgumentException("Invalid levelel");
+                            throw new IllegalArgumentException("Invalid level");
                     }
 
                     //checking for uniqueness of hero in Guild
                     if (herosList.size() != 0 && myGuild.getGold() >= priceHero && myGuild.getNbArm() >= nbArms) {
                         checkUnique(name1, herosList, myGuild);
-                        
+
                     } else if (myGuild.getGold() >= priceHero && myGuild.getNbArm() >= nbArms) {
                         herosList.add(name1);
 
@@ -100,11 +100,13 @@ public class Main {
                             System.out.println("Not enough money for " + name1.getName() + " :(" + " | you could be in debt of : " + String.format("%.1f", newPrice));
                         }
                         if (newArms < 0) {
-                            System.out.println("Not enough arms for " + name1.getName() + " :(" + " | you could be in debt of : " + -1 * newArms + "");
+                            System.out.println("Not enough armours for " + name1.getName() + " :(" + " | you could be in debt of : " + -1 * newArms + "");
+                            System.out.println();
                         }
                     }
 
-                } break;
+                }
+                break;
 
                 case "buy-armor": {
 
@@ -113,10 +115,11 @@ public class Main {
 
                     Bank.buyArms(arm, gold);
 
-                } break;
+                }
+                break;
 
                 case "do-quest": {
-                    
+
                     if (herosList.size() > 0) {
 
                         int level = command.nextInt();
@@ -127,13 +130,14 @@ public class Main {
 
                         Hero chosenhero = Quest.searchingAlgo(level, herosList);
 
-                        Quest.quest(unique,chosenhero,level, hpRequired, myGuild, goldReward,armReward);
+                        Quest.quest(unique, chosenhero, level, hpRequired, myGuild, goldReward, armReward);
 
                     }
-                } break;
+                }
+                break;
 
                 case "train-hero": {
-                    
+
                     String name = command.nextString();
                     Hero heroBeingTrained = null;
                     int heroCategory = 0;
@@ -146,7 +150,7 @@ public class Main {
                         }
                     }
 
-                    if(heroBeingTrained == null){
+                    if (heroBeingTrained == null) {
                         herosListRemove.add(name);
                     }
                     //If the hero exists in the guild we can check if he isn't already at the max level (4)
@@ -158,50 +162,41 @@ public class Main {
 
                             double trainingPriceInGold = 20 * Math.log(heroCategory + 10);
 
-                            double armours=Math.log(heroCategory + 10);
+                            double armours = Math.log(heroCategory + 10);
                             double ceilArmours = Math.ceil(armours);
-                            int trainingPriceInArmors=(int)ceilArmours;
-                            
+                            int trainingPriceInArmors = (int) ceilArmours;
+
                             int armourInventory = myGuild.getNbArm();
                             double goldInventory = myGuild.getGold();
 
-                            if (goldInventory-trainingPriceInGold>0 && armourInventory-trainingPriceInArmors>0) {
+                            if (goldInventory - trainingPriceInGold > 0 && armourInventory - trainingPriceInArmors > 0) {
 
                                 //Gold and Armour quantity after paying for the training
-                                myGuild.setGold(myGuild.getGold()-trainingPriceInGold);
-                                myGuild.setNbArm(myGuild.getNbArm()-trainingPriceInArmors);
+                                myGuild.setGold(myGuild.getGold() - trainingPriceInGold);
+                                myGuild.setNbArm(myGuild.getNbArm() - trainingPriceInArmors);
 
                                 //Setting the new level, maximum health points and health points after training
                                 heroBeingTrained.setMaxHealthPoints(heroBeingTrained.getMaxHealthPoints() * 1.5);
                                 heroBeingTrained.setHealthPoints(heroBeingTrained.getHealthPoints() * 1.5);
                                 heroBeingTrained.setCategory(heroCategory + 1);
 
+                            } else if (trainingPriceInGold > goldInventory || trainingPriceInArmors > armourInventory) {
+                                enoughResources = true;
                             }
 
-                            else if (trainingPriceInGold > goldInventory || trainingPriceInArmors > armourInventory) {
-                                enoughResources=true;
-                            }
-
-                        }
-                        else if (heroCategory == 4){
-                            System.out.println(heroBeingTrained.getName() + "already reached the highest category.");
-                        }
-                        else if (heroCategory < 0 || heroCategory > 4){
+                        } else if (heroCategory == 4) {
+                            System.out.println(heroBeingTrained.getName() + " already reached the highest category.");
+                        } else if (heroCategory < 0 || heroCategory > 4) {
                             System.out.println("Invalid category.");
                         }
-
-
-
                     }
                 }
                 break;
             }
-
-
         }
 
         //Output messages
-        System.out.println("Output: )
+        System.out.println("Output: ");
         System.out.println("");
         String am = String.format("%.1f", myGuild.getGold());
         System.out.println("Guild Bank account: " + am + " gold & " + myGuild.getNbArm() + "" + " armours");
