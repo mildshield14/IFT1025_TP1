@@ -124,12 +124,13 @@ public class Main {
                 case "train-hero": {
                     String name = command.nextString();
                     Hero heroBeingTrained = null;
-                    int heroCategory = heroBeingTrained.getCategory();
+                    int heroCategory = 0;
 
                     //We check if the hero is in the Guild
                     for (int i = 0; i < herosList.size(); i++) {
                         if (herosList.get(i).getName().equals(name)) {
                             heroBeingTrained = herosList.get(i);
+                            heroCategory = heroBeingTrained.getCategory();
                         }
                     }
 
