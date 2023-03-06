@@ -1,3 +1,7 @@
+// Vennila Sooben (20235256) and Marion Absalon (20211423)
+
+// Main file to start the program and where every task is dealt with (switch case)
+
 package ca.udem.ift1025.tp1.corrige.guildcommands;
 
 import java.util.LinkedList;
@@ -5,11 +9,15 @@ import java.lang.Math;
 
 public class Main {
 
-    public static boolean enoughResources;ew
+    public static boolean enoughResources;
+    
     //To store heroes of the Guild we use a linked list
+    //We use another one to store name of Heroes that are eliminated so that we can output their names at the end
     public static  LinkedList<Hero> herosList = new LinkedList<>();
     public static LinkedList<String> herosListRemove = new LinkedList<>();
-
+    
+    //This boolean value is used in another class to check if resources are available so that appropriate 
+    //actions can be taken
     public static void setEnoughResources(boolean enoughResources) {
         Main.enoughResources = enoughResources;
     }
@@ -28,17 +36,18 @@ public class Main {
         GuildCommandSystem guildCommandSystem = new GuildCommandSystem(args);
         Guild myGuild = makeGuilde(guildCommandSystem.actualCommand());
 
-        //To decode input info and create objects after checking for uniqueness
+        //To decode input data and create objects after checking for uniqueness
         boolean unique = false;
 
         while (guildCommandSystem.hasNextCommand()) {
 
             GuildCommand command = guildCommandSystem.nextCommand();
 
-            //variable what-stores info on What to do?
+            //stores info on What to do?
             String what = command.getName();
 
             switch (what) {
+                    
                 case "buy-hero": {
 
                     String name = command.nextString();
@@ -73,9 +82,10 @@ public class Main {
                             throw new IllegalArgumentException("Invalid levelel");
                     }
 
-                    //checking for uniqueness
+                    //checking for uniqueness of hero in Guild
                     if (herosList.size() != 0 && myGuild.getGold() >= priceHero && myGuild.getNbArm() >= nbArms) {
                         checkUnique(name1, herosList, myGuild);
+                        
                     } else if (myGuild.getGold() >= priceHero && myGuild.getNbArm() >= nbArms) {
                         herosList.add(name1);
 
@@ -106,6 +116,7 @@ public class Main {
                 } break;
 
                 case "do-quest": {
+                    
                     if (herosList.size() > 0) {
 
                         int level = command.nextInt();
@@ -122,6 +133,7 @@ public class Main {
                 } break;
 
                 case "train-hero": {
+                    
                     String name = command.nextString();
                     Hero heroBeingTrained = null;
                     int heroCategory = 0;
@@ -148,16 +160,17 @@ public class Main {
 
                             double armours=Math.log(heroCategory + 10);
                             double ceilArmours = Math.ceil(armours);
-                            int trainingPriceInArmors=(int)ceilArmours;
+                            int armoursPrice=(int)ceilArmours;
+                            //double trainingPriceInArmors = Math.ceil(trainingPriceInGold);
 
                             int armourInventory = myGuild.getNbArm();
                             double goldInventory = myGuild.getGold();
 
-                            if (goldInventory-trainingPriceInGold>0 && armourInventory-trainingPriceInArmors>0) {
+                            if (goldInventory-trainingPriceInGold>0 && armourInventory-armoursPrice>0) {
 
                                 //Gold and Armour quantity after paying for the training
                                 myGuild.setGold(myGuild.getGold()-trainingPriceInGold);
-                                myGuild.setNbArm(myGuild.getNbArm()-trainingPriceInArmors);
+                                myGuild.setNbArm(myGuild.getNbArm()-armoursPrice);
 
                                 //Setting the new level, maximum health points and health points after training
                                 heroBeingTrained.setMaxHealthPoints(heroBeingTrained.getMaxHealthPoints() * 1.5);
@@ -188,7 +201,8 @@ public class Main {
 
         }
 
-        //Output message
+        //Output messages
+        System.out.println("Output: )
         System.out.println("");
         String am = String.format("%.1f", myGuild.getGold());
         System.out.println("Guild Bank account: " + am + " gold & " + myGuild.getNbArm() + "" + " armours");
@@ -261,16 +275,5 @@ public class Main {
         myGuild.setGold(goldInitial);
         return myGuild;
     }
-}
 
-
-
-    //Creation of Guild
-    public static Guild makeGuilde(GuildCommand command) {
-        double goldInitial = command.nextDouble();
-        int nbArmures = command.nextInt();
-        Guild myGuild = new Guild(goldInitial, nbArmures);
-        myGuild.setGold(goldInitial);
-        return myGuild;
-    }
 }
