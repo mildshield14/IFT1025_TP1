@@ -21,7 +21,15 @@ public class Bank extends Guild{
 
 
     public static void buyArms(int buyAm, double buyPr){
-        if (getGold()>=buyPr*buyAm){
+       if (buyAm<0) {
+           System.out.println("That's not a valid number of armours...");
+           if (buyPr < 0){
+               System.out.println("");
+               System.out.println("We are not paying you to buy armours!!");
+           }
+        } else if (buyPr < 0){
+       System.out.println("We are not paying you to buy armours!!");
+       }else if (getGold()>=buyPr*buyAm){
             setterGold(getGold()-(buyPr*buyAm));
             setterArm(getNbArm()+buyAm);
         }else{
