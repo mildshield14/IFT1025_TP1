@@ -196,7 +196,6 @@ public class Main {
         }
 
         //Output messages
-        System.out.println("Output: ");
         System.out.println("");
         String am = String.format("%.1f", myGuild.getGold());
         System.out.println("Guild Bank account: " + am + " gold & " + myGuild.getNbArm() + "" + " armours");
