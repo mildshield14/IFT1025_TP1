@@ -148,17 +148,16 @@ public class Main {
 
                             double armours=Math.log(heroCategory + 10);
                             double ceilArmours = Math.ceil(armours);
-                            int armoursPrice=(int)ceilArmours;
-                            //double trainingPriceInArmors = Math.ceil(trainingPriceInGold);
+                            int trainingPriceInArmors=(int)ceilArmours;
 
                             int armourInventory = myGuild.getNbArm();
                             double goldInventory = myGuild.getGold();
 
-                            if (goldInventory-trainingPriceInGold>0 && armourInventory-armoursPrice>0) {
+                            if (goldInventory-trainingPriceInGold>0 && armourInventory-trainingPriceInArmors>0) {
 
                                 //Gold and Armour quantity after paying for the training
                                 myGuild.setGold(myGuild.getGold()-trainingPriceInGold);
-                                myGuild.setNbArm(myGuild.getNbArm()-armoursPrice);
+                                myGuild.setNbArm(myGuild.getNbArm()-trainingPriceInArmors);
 
                                 //Setting the new level, maximum health points and health points after training
                                 heroBeingTrained.setMaxHealthPoints(heroBeingTrained.getMaxHealthPoints() * 1.5);
