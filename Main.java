@@ -5,7 +5,7 @@ import java.lang.Math;
 
 public class Main {
 
-    public static boolean enoughResources;
+    public static boolean enoughResources;ew
     //To store heroes of the Guild we use a linked list
     public static  LinkedList<Hero> herosList = new LinkedList<>();
     public static LinkedList<String> herosListRemove = new LinkedList<>();
@@ -124,6 +124,9 @@ public class Main {
                 case "train-hero": {
                     String name = command.nextString();
                     Hero heroBeingTrained = null;
+                    int heroCategory = heroBeingTrained.getCategory();
+
+                    //We check if the hero is in the Guild
                     for (int i = 0; i < herosList.size(); i++) {
                         if (herosList.get(i).getName().equals(name)) {
                             heroBeingTrained = herosList.get(i);
@@ -136,29 +139,30 @@ public class Main {
                     //If the hero exists in the guild we can check if he isn't already at the max level (4)
                     if (heroBeingTrained != null) {
 
-                        if (heroBeingTrained.getCategory() >= 0 && heroBeingTrained.getCategory() < 4) {
+                        if (heroCategory >= 0 && heroCategory < 4) {
 
                             //Then we have to see if the guild has enough armours and gold to train the hero
 
-                            double trainingPriceInGold = 20 * Math.log(heroBeingTrained.getCategory() + 10);
+                            double trainingPriceInGold = 20 * Math.log(heroCategory + 10);
 
-                            double armours=Math.log(heroBeingTrained.getCategory() + 10);
+                            double armours=Math.log(heroCategory + 10);
                             double ceilArmours = Math.ceil(armours);
                             int armoursPrice=(int)ceilArmours;
-                            double trainingPriceInArmors = Math.ceil(trainingPriceInGold);
+                            //double trainingPriceInArmors = Math.ceil(trainingPriceInGold);
 
                             int armourInventory = myGuild.getNbArm();
                             double goldInventory = myGuild.getGold();
 
-                            if (myGuild.getGold()-trainingPriceInArmors>0 && myGuild.getNbArm()-armoursPrice>0) {
+                            if (goldInventory-trainingPriceInGold>0 && armourInventory-armoursPrice>0) {
 
-                                myGuild.setGold(myGuild.getGold()-trainingPriceInArmors);
+                                //Gold and Armour quantity after paying for the training
+                                myGuild.setGold(myGuild.getGold()-trainingPriceInGold);
                                 myGuild.setNbArm(myGuild.getNbArm()-armoursPrice);
 
                                 //Setting the new level, maximum health points and health points after training
                                 heroBeingTrained.setMaxHealthPoints(heroBeingTrained.getMaxHealthPoints() * 1.5);
                                 heroBeingTrained.setHealthPoints(heroBeingTrained.getHealthPoints() * 1.5);
-                                heroBeingTrained.setCategory(heroBeingTrained.getCategory() + 1);
+                                heroBeingTrained.setCategory(heroCategory + 1);
 
                             }
 
@@ -167,10 +171,10 @@ public class Main {
                             }
 
                         }
-                        else if (heroBeingTrained.getCategory() == 4){
+                        else if (heroCategory == 4){
                             System.out.println(heroBeingTrained.getName() + "already reached the highest category.");
                         }
-                        else if (heroBeingTrained.getCategory() < 0 || heroBeingTrained.getCategory() > 4){
+                        else if (heroCategory < 0 || heroCategory > 4){
                             System.out.println("Invalid category.");
                         }
 
